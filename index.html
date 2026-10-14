@@ -90,6 +90,8 @@ a{color:var(--accent-ink)}
 .src{margin-top:18px;font-size:13.5px;color:var(--muted)}
 
 /* wizard */
+.privacy{display:flex;gap:12px;align-items:flex-start;background:var(--accent-soft);border-radius:var(--r);padding:14px 18px;margin-bottom:16px;font-size:15px;line-height:1.8}
+.privacy b{font-weight:600;white-space:nowrap}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:clamp(20px,4vw,36px)}
 .progress{display:flex;gap:6px;margin-bottom:10px}
 .progress i{flex:1;height:5px;border-radius:3px;background:var(--line)}
@@ -240,6 +242,7 @@ textarea:focus,input[type=text]:focus{outline:2px solid var(--accent-ink);outlin
   </section>
 
   <section id="start" aria-label="تصميم البرنامج">
+    <p class="privacy"><b>خصوصيتكم:</b><span>هذه الصفحة لا تجمع ولا تحفظ أي معلومة عنكم. إجاباتكم تبقى في متصفحكم لتساعدكم على تحديد المسار التدريبي المناسب، ولا يُرسل منها شيء إلا إذا نسختم الرسالة وأرسلتموها بأنفسكم. وإن أعجبتكم الخطة، يسعدني أن تتواصلوا معي.</span></p>
     <div class="card" id="wizard"></div>
   </section>
 
@@ -585,7 +588,7 @@ function renderResult(){
   var ow=ownWords();
   if(ow.length)html+='<div class="panel note"><h3>ما كتبتموه بأنفسكم</h3><ul>'+ow.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul><p style="margin-top:12px;font-size:14.5px">ستراجع م. آن ما كتبتموه وتخصص الخطة وفقه.</p></div>';
   html+='</aside></div>';
-  html+='<section class="cta" aria-labelledby="ctah"><h2 id="ctah">الخطوة التالية: جلسة تعريفية مدتها 30 دقيقة</h2><p>نراجع فيها الخطة معًا ونعدّلها بحسب واقع فريقكم. هذه رسالة جاهزة تتضمن اختياراتكم، انسخوها وأرسلوها إلى م. آن عبر LinkedIn.</p><label class="sr" for="msg">نص الرسالة</label><textarea id="msg" readonly></textarea><div class="cta-row"><button type="button" class="btn btn-signal" id="copy">نسخ الرسالة</button><a class="btn btn-ghost" href="'+LINKEDIN+'" target="_blank" rel="noopener" dir="ltr">Ann on LinkedIn</a><span class="status" id="status" role="status"></span></div></section>';
+  html+='<section class="cta" aria-labelledby="ctah"><h2 id="ctah">الخطوة التالية: جلسة تعريفية مدتها 30 دقيقة</h2><p>نراجع فيها الخطة معًا ونعدّلها بحسب واقع فريقكم. هذه رسالة جاهزة تتضمن اختياراتكم. لا يُرسل شيء تلقائيًا، فإن رغبتم في التواصل انسخوها وأرسلوها إلى م. آن عبر LinkedIn.</p><label class="sr" for="msg">نص الرسالة</label><textarea id="msg" readonly></textarea><div class="cta-row"><button type="button" class="btn btn-signal" id="copy">نسخ الرسالة</button><a class="btn btn-ghost" href="'+LINKEDIN+'" target="_blank" rel="noopener" dir="ltr">Ann on LinkedIn</a><span class="status" id="status" role="status"></span></div></section>';
   html+='<div class="edit"><button type="button" class="btn btn-ghost" id="edit">تعديل الإجابات</button></div>';
   res.innerHTML=html;
   $('#msg').value=buildMsg(b);

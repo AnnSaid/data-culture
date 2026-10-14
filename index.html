@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="برنامج تدريبي قصير على البيانات للمؤسسات: أجيبوا عن أسئلة قصيرة لتحصلوا على خطة مقترحة بالجلسات والمخرجات والمدة.">
+<title>ثقافة البيانات لفريقك</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@500;600&display=swap">
+<style>
+body{margin:0}
+img{max-width:100%}
+/* Layout concept: one calm column. A short hero, a one-question-at-a-time wizard, then a plan the company can edit.
+   Blue carries structure, orange marks only what matters (the foundation stage, the key number, the main actions). */
+:root{
+  --bg:#F5F8FD; --surface:#FFFFFF; --surface-2:#ECF2FC; --ink:#10203B; --muted:#55657E; --line:#DAE3F1;
+  --accent:#2A5BD7; --accent-ink:#2A5BD7; --accent-soft:#E8EFFD; --on-accent:#FFFFFF;
+  --signal:#D9480F; --signal-ink:#B23A0B; --signal-soft:#FFF1E8; --on-signal:#FFFFFF;
+  --shadow:0 1px 2px rgba(16,32,59,.05),0 10px 30px rgba(16,32,59,.06);
+  --font-display:"Readex Pro","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1322; --surface:#121D33; --surface-2:#172640; --ink:#E8EEFA; --muted:#9CADC9; --line:#25375A;
+    --accent:#3E6EF0; --accent-ink:#92B1FF; --accent-soft:#1A2C52; --on-accent:#FFFFFF;
+    --signal:#FF8A4A; --signal-ink:#FFA574; --signal-soft:#33211A; --on-signal:#1C0E05;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1322; --surface:#121D33; --surface-2:#172640; --ink:#E8EEFA; --muted:#9CADC9; --line:#25375A;
+  --accent:#3E6EF0; --accent-ink:#92B1FF; --accent-soft:#1A2C52; --on-accent:#FFFFFF;
+  --signal:#FF8A4A; --signal-ink:#FFA574; --signal-soft:#33211A; --on-signal:#1C0E05;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.8}
+.wrap{max-width:1040px;margin:0 auto;padding-block:20px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.35;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent-ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px;border-radius:6px}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:6px 28px}
+.brand{display:flex;flex-direction:column;line-height:1.5}
+.brand b{font-family:var(--font-display);font-weight:600;font-size:17px}
+.brand span{color:var(--muted);font-size:14px}
+.toplink{font-size:15px;font-weight:500;text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:7px 16px;border-radius:999px;color:var(--ink)}
+.toplink:hover{border-color:var(--accent)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding-block:12px 36px}
+.eyebrow{display:inline-block;color:var(--accent-ink);background:var(--accent-soft);font-weight:600;font-size:14px;padding:3px 14px;border-radius:999px;margin-bottom:16px}
+.hero h1{font-size:clamp(32px,5.2vw,48px);margin-bottom:16px}
+.lead{color:var(--muted);font-size:18px;max-width:34em}
+.creds{display:flex;flex-wrap:wrap;gap:8px 0;margin:24px 0 28px;padding:0;list-style:none;font-size:15px}
+.creds li{padding-inline:0 14px;margin-inline-end:14px;border-inline-end:1px solid var(--line)}
+.creds li:last-child{border:0;margin:0;padding:0}
+.creds b{font-weight:600}
+.btn{font:inherit;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:12px;border:1px solid transparent;cursor:pointer;text-decoration:none;line-height:1.4;transition:background-color .15s,border-color .15s,transform .15s}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-signal{background:var(--signal);color:var(--on-signal)}
+.btn-signal:hover{filter:brightness(1.08)}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn:active{transform:translateY(1px)}
+.hero-art{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:18px}
+.hero-art svg{display:block;width:100%;height:auto}
+.a-card{fill:var(--surface-2)} .a-line{stroke:var(--line);fill:none}
+.a-bar{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+.a-bar-hi{fill:var(--accent)}
+.a-trend{stroke:var(--signal);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.a-dot{fill:var(--signal)} .a-pill{fill:var(--accent-soft)} .a-txt{fill:var(--muted)}
+
+/* evidence strip */
+.evidence{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px clamp(18px,3vw,32px);margin-bottom:36px}
+.evidence h2{font-size:19px;margin-bottom:18px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.stat b{display:block;font-family:var(--font-display);font-weight:600;font-size:40px;line-height:1.1;color:var(--accent-ink);margin-bottom:6px}
+.stat.key b{color:var(--signal-ink)}
+.stat span{color:var(--muted);font-size:15px;line-height:1.7;display:block}
+.src{margin-top:18px;font-size:13.5px;color:var(--muted)}
+
+/* wizard */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:clamp(20px,4vw,36px)}
+.progress{display:flex;gap:6px;margin-bottom:10px}
+.progress i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.progress i.on{background:var(--accent)}
+.stepno{color:var(--muted);font-size:14px;margin-bottom:22px}
+.card h2{font-size:clamp(22px,3.4vw,28px);margin-bottom:6px}
+.hint{color:var(--muted);margin-bottom:24px}
+.field{border:0;padding:0;margin:0 0 26px;min-width:0}
+.field legend{padding:0;font-weight:600;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{position:relative;display:block}
+.chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.chip span{display:flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-weight:500;line-height:1.5;transition:background-color .15s,border-color .15s}
+.chip span::before{content:"";flex:none;width:18px;height:18px;border:1.5px solid var(--muted);border-radius:5px;background-position:center;background-repeat:no-repeat;background-size:12px}
+.chip.single span::before{border-radius:50%}
+.chip:hover span{border-color:var(--accent)}
+.chip input:checked + span{background:var(--accent-soft);border-color:var(--accent)}
+.chip input:checked + span::before{background-color:var(--accent);border-color:var(--accent);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.4l2.4 2.3 4.6-5' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.chip input:focus-visible + span{outline:2px solid var(--accent-ink);outline-offset:2px}
+.chip.other span{border-style:dashed}
+.other-wrap{margin-top:12px}
+textarea,input[type=text]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;resize:vertical}
+textarea:focus,input[type=text]:focus{outline:2px solid var(--accent-ink);outline-offset:1px;border-color:var(--accent)}
+.label{display:block;font-weight:600;margin-bottom:8px}
+.free{display:grid;gap:20px;margin-bottom:8px}
+.err{color:var(--signal-ink);font-weight:500;margin:-8px 0 16px}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:8px}
+
+/* result */
+.res-head{margin-bottom:26px}
+.res-head .eyebrow{background:var(--signal-soft);color:var(--signal-ink)}
+.res-head h2{font-size:clamp(26px,4.2vw,36px);margin-bottom:8px}
+.res-head p{color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:28px}
+.fact{padding:16px 20px;border-inline-start:1px solid var(--line)}
+.fact:first-child{border:0}
+.fact small{display:block;color:var(--muted);font-size:13.5px}
+.fact b{font-family:var(--font-display);font-weight:600;font-size:19px;line-height:1.5}
+.cols{display:grid;grid-template-columns:1.55fr 1fr;gap:28px;align-items:start}
+.phase{margin-bottom:26px}
+.phase h3{font-size:15px;color:var(--muted);display:flex;align-items:center;gap:10px;margin-bottom:12px;font-weight:600}
+.phase h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.tag{font-size:12.5px;font-weight:600;padding:1px 10px;border-radius:999px;background:var(--signal-soft);color:var(--signal-ink)}
+.sess{display:grid;grid-template-columns:auto 1fr auto;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:10px}
+.sess .no{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink);font-family:var(--font-display);font-weight:600;font-size:15px}
+.sess.base .no{background:var(--signal-soft);color:var(--signal-ink)}
+.sess h4{margin:0 0 2px;font-family:var(--font-display);font-weight:600;font-size:17px;line-height:1.5}
+.sess p{color:var(--muted);font-size:15px;line-height:1.7}
+.out{margin-top:8px;font-size:14.5px;line-height:1.7}
+.out b{color:var(--signal-ink);font-weight:600}
+.dur{color:var(--muted);font-size:13.5px;white-space:nowrap}
+.rm{display:block;margin-top:6px;background:none;border:0;color:var(--muted);font:inherit;font-size:13.5px;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px}
+.rm:hover{color:var(--signal-ink)}
+.side{display:grid;gap:18px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px}
+.panel h3{font-size:17px;margin-bottom:12px}
+.panel ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:15px;line-height:1.75}
+.panel li{padding-inline-start:20px;position:relative}
+.panel li::before{content:"";position:absolute;inset-inline-start:0;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.panel.note{background:var(--signal-soft);border-color:transparent}
+.panel.note li::before{background:var(--signal)}
+.panel.note h3{color:var(--signal-ink)}
+.addbox{margin-top:8px}
+.addbox h3{font-size:17px;margin-bottom:6px}
+.addbox p{color:var(--muted);font-size:15px;margin-bottom:12px}
+.adds{display:flex;flex-wrap:wrap;gap:8px}
+.add{font:inherit;font-size:14.5px;font-weight:500;background:var(--surface);color:var(--ink);border:1px dashed var(--muted);border-radius:999px;padding:6px 14px;cursor:pointer}
+.add:hover{border-color:var(--accent);color:var(--accent-ink)}
+.cta{margin-top:36px;background:var(--surface-2);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,34px)}
+.cta h2{font-size:clamp(22px,3.4vw,28px);margin-bottom:6px}
+.cta > p{color:var(--muted);margin-bottom:18px;max-width:38em}
+.cta textarea{min-height:200px;background:var(--surface);font-size:15px;line-height:1.85}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;align-items:center}
+.status{color:var(--muted);font-size:14.5px}
+.edit{margin-top:22px}
+.foot{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:14.5px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
+[hidden]{display:none!important}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:26px}
+  .hero-art{order:-1;max-width:420px}
+  .cols{grid-template-columns:1fr}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .fact:nth-child(3){border-inline-start:0}
+  .fact:nth-child(n+3){border-top:1px solid var(--line)}
+}
+@media (max-width:560px){
+  .stats{grid-template-columns:1fr;gap:16px}
+  .stat b{font-size:34px}
+  .sess{grid-template-columns:auto 1fr}
+  .dur{grid-column:2}
+  .nav .btn{flex:1}
+  .toplink{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap" dir="rtl" lang="ar">
+  <header class="top">
+    <div class="brand"><b>م. آن سعيد عبد الواحد</b><span>محللة بيانات ومدربة تقنية</span></div>
+    <a class="toplink" href="https://www.linkedin.com/in/annsaid/" target="_blank" rel="noopener" dir="ltr">Ann on LinkedIn</a>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span class="eyebrow">برنامج تدريبي للمؤسسات</span>
+      <h1>ثقافة البيانات لفريقك</h1>
+      <p class="lead">برنامج تدريبي قصير يُصمَّم بحسب أدواتكم واحتياجكم ومستوى فريقكم. أجيبوا عن تسعة أسئلة قصيرة، لتحصلوا على خطة مقترحة بالجلسات والمخرجات والمدة.</p>
+      <ul class="creds">
+        <li><b>أكثر من 13 عامًا</b> من الخبرة</li>
+        <li>Excel · SQL · Tableau · Power BI · Claude</li>
+        <li>تحليل البيانات والذكاء الاصطناعي</li>
+      </ul>
+      <a class="btn btn-primary" href="#start" id="startBtn">ابدأوا بتصميم برنامجكم</a>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 360 250" role="img" focusable="false">
+        <rect class="a-card" x="0" y="0" width="360" height="250" rx="14"/>
+        <rect class="a-pill" x="22" y="20" width="96" height="14" rx="7"/>
+        <rect class="a-pill" x="130" y="20" width="56" height="14" rx="7"/>
+        <line class="a-line" x1="22" y1="70" x2="338" y2="70"/>
+        <line class="a-line" x1="22" y1="115" x2="338" y2="115"/>
+        <line class="a-line" x1="22" y1="160" x2="338" y2="160"/>
+        <line class="a-line" x1="22" y1="205" x2="338" y2="205"/>
+        <rect class="a-bar" x="40" y="150" width="34" height="55" rx="6"/>
+        <rect class="a-bar" x="98" y="128" width="34" height="77" rx="6"/>
+        <rect class="a-bar" x="156" y="108" width="34" height="97" rx="6"/>
+        <rect class="a-bar-hi" x="214" y="84" width="34" height="121" rx="6"/>
+        <rect class="a-bar" x="272" y="96" width="34" height="109" rx="6"/>
+        <polyline class="a-trend" points="57,136 115,112 173,92 231,66 289,76"/>
+        <circle class="a-dot" cx="231" cy="66" r="6"/>
+        <rect class="a-pill" x="22" y="218" width="64" height="10" rx="5"/>
+        <rect class="a-pill" x="96" y="218" width="40" height="10" rx="5"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="evidence" aria-labelledby="evh">
+    <h2 id="evh">لماذا تحتاج الفرق إلى هذا البرنامج</h2>
+    <div class="stats">
+      <div class="stat"><b>88%</b><span>من قادة الشركات يرون أن الثقافة الأساسية بالبيانات مهمة للعمل اليومي</span></div>
+      <div class="stat"><b>60%</b><span>منهم يقرّون بوجود فجوة في مهارات البيانات داخل مؤسساتهم</span></div>
+      <div class="stat key"><b>42%</b><span>فقط يقدمون تدريبًا تأسيسيًا في البيانات على نطاق واسع</span></div>
+    </div>
+    <p class="src">المصدر: استطلاع DataCamp وYouGov، مارس 2026، لأكثر من 500 قيادي في مؤسسات أمريكية وبريطانية. <a href="https://www.datacamp.com/th/blog/the-data-literacy-skills-gap-in-enterprise-why-table-stakes-still-aren-t-universal" target="_blank" rel="noopener">قراءة التقرير</a></p>
+  </section>
+
+  <section id="start" aria-label="تصميم البرنامج">
+    <div class="card" id="wizard"></div>
+  </section>
+
+  <section id="result" hidden aria-live="polite"></section>
+
+  <footer class="foot">
+    <span>م. آن سعيد عبد الواحد · محللة بيانات ومدربة تقنية</span>
+    <span>الخطة المقترحة أولية وقابلة للتعديل بعد الجلسة التعريفية.</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+document.documentElement.setAttribute('dir','rtl');
+document.documentElement.setAttribute('lang','ar');
+var LINKEDIN='https://www.linkedin.com/in/annsaid/';
+var $=function(s,r){return (r||document).querySelector(s)};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+
+/* ---------- questions ---------- */
+var STEPS=[
+ {title:'ما الأدوات التي تستخدمونها الآن مع البيانات؟',hint:'اختاروا الأدوات التي تستخدمونها فعلًا في عملكم اليوم.',
+  fields:[{id:'tools',type:'multi',req:true,exclusive:'none',ph:'اكتبوا اسم الأداة أو النظام الذي تستخدمونه',
+   options:[['excel','Excel'],['sheets','Google Sheets'],['powerbi','Power BI'],['tableau','Tableau'],['sql','SQL وقواعد البيانات'],['system','تقارير جاهزة من نظام الشركة (ERP أو CRM)'],['none','لا نستخدم أدوات تحليل حاليًا']]}]},
+ {title:'كيف تُعدّون تقاريركم اليوم؟',hint:'صفوا الطريقة الفعلية ولو كانت يدوية. هذا ما يحدد ما سنركز عليه.',
+  fields:[
+   {id:'rep',label:'طريقة إعداد التقارير',type:'multi',req:true,exclusive:'none',ph:'صفوا كيف تُعدّ تقاريركم خطوة بخطوة',
+    options:[['manual','يدويًا: ننسخ ونلصق من ملفات متعددة'],['sheets','جداول بمعادلات نعدّلها في كل مرة'],['system','نصدّرها جاهزة من نظام الشركة'],['dash','لوحات تفاعلية تتحدث تلقائيًا'],['none','لا نعدّ تقارير منتظمة حاليًا']]},
+   {id:'rtime',label:'كم يستغرق إعداد التقارير؟',type:'single',req:false,ph:'اكتبوا المدة التقريبية',
+    options:[['lt','أقل من ساعة أسبوعيًا'],['hrs','عدة ساعات أسبوعيًا'],['days','أيام كل شهر'],['unk','لا نعرف']]}
+  ]},
+ {title:'ما الذي تريدون تطويره عند فريقكم؟',hint:'اختاروا ما تريدون أن يتحسن. يمكن اختيار أكثر من هدف.',
+  fields:[{id:'needs',type:'multi',req:true,ph:'صفوا ما تريدون تطويره بكلماتكم',
+   options:[['reports','إعداد التقارير بشكل أسرع وتحديثها تلقائيًا'],['dash','بناء لوحات تفاعلية'],['why','فهم أسباب النتائج والمشكلات'],['forecast','التنبؤ والتخطيط'],['quality','تنظيف البيانات وضمان جودتها'],['decide','اتخاذ قرارات مبنية على الأرقام'],['ai','استخدام الذكاء الاصطناعي في العمل مع البيانات']]}]},
+ {title:'على أي أداة تريدون تدريب الفريق؟',hint:'قد تختلف عن أدواتكم الحالية. إن لم تعرفوا فسنقترح الأنسب لكم.',
+  fields:[{id:'want',type:'multi',req:true,exclusive:'suggest',ph:'اكتبوا الأداة التي تريدون التدرب عليها',
+   options:[['excel','Excel'],['powerbi','Power BI'],['tableau','Tableau'],['sql','SQL'],['claude','Claude: تنظيف البيانات وتحليلها وإنشاء اللوحات'],['suggest','لا نعرف، اقترحوا علينا']]}]},
+ {title:'من الفئة التي ستتدرب؟',hint:'اختاروا الفئات المشاركة. سنأخذ أمثلة التمارين من طبيعة عملها.',
+  fields:[{id:'aud',type:'multi',req:true,ph:'اكتبوا الفئة أو المسمى الوظيفي',
+   options:[['mgmt','الإدارة'],['sales','المبيعات'],['hr','الموارد البشرية'],['mkt','التسويق'],['fin','المالية'],['ops','العمليات'],['mixed','فريق متنوع']]}]},
+ {title:'ما مستوى الفريق في التعامل مع البيانات؟',hint:'اختاروا الوصف الأقرب إلى واقعكم.',
+  fields:[{id:'level',type:'single',req:true,ph:'صفوا مستوى الفريق بكلماتكم',
+   options:[['b','مبتدئ: يقرأ جداول بسيطة ولا يحلل بنفسه'],['m','متوسط: يستخدم Excel أو غيره في التقارير اليومية'],['a','متقدم: يبني تحليلات ولوحات ويريد التعمق']]}]},
+ {title:'ما أكبر عائق أمام التدريب لديكم؟',hint:'اختيار اختياري، لكنه يساعدنا على تصميم الجلسات.',
+  fields:[{id:'obs',type:'multi',req:false,ph:'اكتبوا العائق الذي تواجهونه',
+   options:[['time','ضيق الوقت'],['measure','صعوبة قياس أثر التدريب'],['practice','قلة التطبيق العملي'],['fit','عدم ملاءمة المحتوى للدور الوظيفي'],['start','لا نعرف من أين نبدأ']]}]},
+ {title:'كيف تريدون تنظيم الجلسات؟',hint:'كل الخيارات اختيارية. وسنحدد مدة البرنامج الإجمالية بحسب متطلباتكم.',
+  fields:[
+   {id:'size',label:'عدد المتدربين',type:'single',req:false,ph:'اكتبوا العدد التقريبي',options:[['s','أقل من 10'],['m','من 10 إلى 30'],['l','أكثر من 30']]},
+   {id:'fmt',label:'صيغة التدريب',type:'single',req:false,ph:'اكتبوا الصيغة التي تفضلونها',options:[['on','عن بُعد'],['in','حضوري'],['hy','مختلط']]},
+   {id:'sess',label:'مدة الجلسة الواحدة',type:'single',req:false,ph:'اكتبوا المدة المناسبة',options:[['1','ساعة واحدة'],['2','ساعتان'],['3','3 ساعات']]}
+  ]},
+ {title:'هل من شيء تودّون إضافته؟',hint:'اكتبوا أي تفصيل يساعد على تخصيص الخطة. هذه الخطوة اختيارية.',free:true}
+];
+var LAB={};
+STEPS.forEach(function(s){(s.fields||[]).forEach(function(f){LAB[f.id]={};f.options.forEach(function(o){LAB[f.id][o[0]]=o[1]})})});
+
+var A={added:{},removed:{},org:'',note:''};
+STEPS.forEach(function(s){(s.fields||[]).forEach(function(f){A[f.id]={sel:[],other:''}})});
+var cur=0;
+
+/* ---------- module library ---------- */
+var MOD={
+ F1:{t:'مدخل إلى تحليل البيانات',d:'دورة حياة التحليل، والمصطلحات الأساسية، وأخلاقيات التعامل مع البيانات وسلامتها.',o:'خريطة بأهداف الفريق من البيانات',c:'فهم دورة التحليل ومصطلحاتها وأخلاقياتها'},
+ F2:{t:'جودة البيانات',d:'أنواع البيانات المتسخة، وأبعاد الجودة، وفحص البيانات قبل الاعتماد عليها.',o:'تقرير جودة على بيانات حقيقية من عمل الفريق',c:'اكتشاف أخطاء البيانات قبل أن تؤثر في القرار'},
+ F3:{t:'الأسئلة التحليلية والإحصاء الوصفي',d:'تحويل حاجة العمل إلى سؤال قابل للتحليل، وقراءة المتوسط والوسيط والانحراف والتوزيع.',o:'ست أسئلة عمل مرتبطة بنتائج إحصائية',c:'تحويل حاجة العمل إلى سؤال قابل للتحليل'},
+ F4:{t:'الذكاء الاصطناعي وهندسة الأوامر',d:'مقارنة أدوات الذكاء الاصطناعي، وكتابة أوامر احترافية لتنظيف البيانات وتحليلها وصياغة الاستعلامات، ومراجعة ما ينتجه.',o:'بيانات منظفة بمساعدة الذكاء الاصطناعي مع توثيق الأوامر',c:'استخدام الذكاء الاصطناعي في التحليل مع التحقق من نتائجه'},
+ E1:{t:'التنظيف في Excel وPower Query',d:'دوال النصوص، وإزالة التكرار، والتحقق من الإدخال، وتنظيف البيانات وتحويلها بـ Power Query.',o:'جدول قبل التنظيف وبعده بخطوات موثقة',c:'تنظيف البيانات وتجهيزها بخطوات موثقة'},
+ E2:{t:'الدوال والجداول المحورية في Excel',d:'SUMIFS وCOUNTIFS وINDEX MATCH وIFERROR، والجداول المحورية للتلخيص السريع.',o:'ورقة تحليل تجيب عن ست أسئلة عمل',c:'تلخيص الجداول الكبيرة والإجابة عن أسئلة العمل منها'},
+ E3:{t:'الرسوم والتقارير في Excel',d:'اختيار الرسم المناسب لكل رسالة، والرسوم المحورية، وبناء تقرير متكامل.',o:'تقرير بأربعة أنواع من الرسوم ولوحة محورية',c:'إعداد تقارير واضحة بالرسوم المناسبة'},
+ E4:{t:'Excel المتقدم',d:'Power Query المتقدم، ونموذج البيانات، والسيناريوهات، وتحديث التقارير الدورية آليًا.',o:'تقرير دوري يتحدث بضغطة زر',c:'تحديث التقارير الدورية آليًا بدل إعدادها يدويًا'},
+ S1:{t:'أساسيات SQL',d:'الفرق بين SQL وExcel، وقراءة الجداول بـ SELECT وWHERE، وأساسيات إدارة البيانات.',o:'ملف استعلامات مطبق على بيانات حقيقية',c:'استخراج البيانات من قواعد الشركة باستعلامات مباشرة'},
+ S2:{t:'تحليل SQL المتقدم',d:'التجميع والربط بين الجداول، والاستعلامات الفرعية وCTE ودوال النوافذ، وتصدير النتائج للوحات.',o:'استعلامات جاهزة لتغذية لوحة تفاعلية',c:'ربط الجداول وتحليلها بالاستعلامات المتقدمة'},
+ T1:{t:'Tableau: الأساسيات',d:'الربط بالبيانات، والأبعاد والمقاييس، والرسوم الأساسية.',o:'مصنف بأربعة رسوم أساسية',c:'قراءة البيانات وبناء الرسوم الأساسية في Tableau'},
+ T2:{t:'Tableau: التحليل',d:'الحقول المحسوبة، والخرائط، والمعاملات، وتعبيرات LOD.',o:'عروض تفاعلية تتغير بالمعاملات',c:'بناء حسابات وعروض تفاعلية في Tableau'},
+ T3:{t:'Tableau: اللوحات والقصص',d:'بناء اللوحات وإجراءاتها، والقصص، وأفضل ممارسات التصميم.',o:'لوحة بثلاثة عروض متناسقة وقصة للإدارة',c:'بناء لوحة تفاعلية وعرضها على الإدارة'},
+ P1:{t:'Power BI: النمذجة',d:'نموذج النجمة، والربط بمصادر البيانات، وPower Query داخل Power BI.',o:'نموذج بيانات سليم من ثلاثة جداول على الأقل',c:'بناء نموذج بيانات سليم في Power BI'},
+ P2:{t:'Power BI: DAX وذكاء الوقت',d:'أساسيات DAX، والمقاييس المحسوبة، وتحليل الأداء عبر الزمن.',o:'ثمانية مقاييس DAX موثقة',c:'كتابة مقاييس DAX وتحليل الأداء عبر الزمن'},
+ P3:{t:'Power BI: التقارير واللوحات',d:'التقارير التفاعلية، والتصفية، والتنسيق الشرطي، والإشارات المرجعية.',o:'تقرير تفاعلي بتنسيق مخصص يستخدمه الفريق',c:'نشر تقارير تفاعلية يستخدمها الفريق'},
+ D1:{t:'الإحصاء لاتخاذ القرار',d:'الفرق بين الارتباط والسببية، وأساسيات اختبار الفرضيات، ومبادئ A/B.',o:'قرار موثق مبني على اختبار من بيانات الفريق',c:'التفريق بين الارتباط والسببية واتخاذ قرار مبني على اختبار'},
+ K1:{t:'تصميم مؤشرات الأداء',d:'كيف يُعرَّف المؤشر، وكيف يُقاس، وكيف يُعرض دون التباس.',o:'لوحة مؤشرات بتعريفات واضحة',c:'تعريف مؤشرات الأداء وقياسها بوضوح'},
+ X1:{t:'التنبؤ والتحليل التنبؤي',d:'أساسيات السلاسل الزمنية، وبناء توقع بالأدوات المتاحة، وتقدير دقته وحدوده.',o:'توقع للفترة القادمة مع شرح لحدوده',c:'إعداد توقعات مبنية على بيانات سابقة وتقدير دقتها'},
+ F5:{t:'سرد القصة بالبيانات',d:'اختيار الرسم المناسب للرسالة، وتصميم اللوحة، وعرض النتائج على صاحب القرار.',o:'عرض بثلاث نتائج وسرد واضح',c:'عرض النتائج بقصة تُقنع صاحب القرار'},
+ CL1:{t:'Claude: تنظيف البيانات وتحليلها',d:'رفع الملفات إلى Claude وتنظيفها، واكتشاف الأخطاء، وتلخيص البيانات وتحليلها، وكتابة الصيغ والاستعلامات، مع التحقق من كل نتيجة وحماية بيانات الشركة.',o:'ملف بيانات منظف وتحليل موثق بالأوامر وخطوات المراجعة',c:'تنظيف البيانات وتحليلها بمساعدة Claude مع التحقق من النتائج'},
+ CL2:{t:'Claude: بناء اللوحات والتقارير التفاعلية',d:'تحويل البيانات إلى لوحة تفاعلية بالحوار مع Claude، وتحسينها خطوة بخطوة، ومتى تكفي ومتى تحتاج Tableau أو Power BI.',o:'لوحة تفاعلية أولية جاهزة للمراجعة مع الإدارة',c:'بناء لوحات وتقارير تفاعلية بمساعدة Claude'},
+ Y1:{t:'Python: تحليل البيانات بـ pandas',d:'التنظيف والتجميع والدمج وتجهيز البيانات للتحليل.',o:'دفتر تحليل كامل على بيانات الفريق',c:'تحليل البيانات وتنظيفها ببايثون'},
+ Y2:{t:'Python: التصوير البياني',d:'Matplotlib وSeaborn وأنواع الرسوم المناسبة للتحليل.',o:'ستة رسوم تحليلية في دفتر واحد',c:'تصوير نتائج التحليل ببايثون'},
+ C1:{t:'المشروع التطبيقي والعرض النهائي',d:'يطبق الفريق ما تعلمه على حالة من عمله، ثم يعرض النتائج على الإدارة.',o:'لوحة وتقرير جاهزان للعرض على الإدارة',c:'تطبيق ما تعلموه على بيانات من عملهم'}
+};
+var ORDER=['F1','F2','F3','F4','E1','E2','E3','E4','S1','S2','T1','T2','T3','P1','P2','P3','CL1','CL2','Y1','Y2','D1','K1','X1','F5','C1'];
+var PHASE={F1:'base',F2:'base',F3:'base',F4:'base',E1:'tools',E2:'tools',E3:'tools',E4:'tools',S1:'tools',S2:'tools',T1:'tools',T2:'tools',T3:'tools',P1:'tools',P2:'tools',P3:'tools',CL1:'tools',CL2:'tools',Y1:'tools',Y2:'tools',D1:'apply',K1:'apply',X1:'apply',F5:'apply',C1:'final'};
+var PHASE_LABEL={base:'الأساس',tools:'الأدوات',apply:'التحليل والتطبيق',final:'الختام'};
+var CORE={F2:1,F3:1,C1:1};
+
+/* ---------- helpers ---------- */
+function S(id){return A[id].sel.filter(function(v){return v!=='__other'})}
+function has(id,v){return A[id].sel.indexOf(v)>-1}
+function otherText(id){return has(id,'__other')?A[id].other.trim():''}
+function lab(id,v){return LAB[id][v]}
+function sessN(n){return n===2?'جلستان':(n<=10?n+' جلسات':n+' جلسة')}
+function hrs(n){return n===1?'ساعة واحدة':(n===2?'ساعتان':n+' ساعات')}
+function joinAr(arr){if(arr.length<2)return arr.join('');return arr.slice(0,-1).join('، ')+' و'+arr[arr.length-1]}
+function labelsOf(id){var l=S(id).map(function(v){return lab(id,v)});var o=otherText(id);if(o)l.push(o);return l}
+
+/* ---------- planning ---------- */
+var UNIT=3;
+function basePlan(){
+  var lv=S('level')[0];var lvl=(lv==='b'||lv==='m'||lv==='a')?lv:'m';
+  var n={};['reports','dash','why','forecast','quality','decide','ai'].forEach(function(k){n[k]=has('needs',k)});
+  var manual=has('rep','manual')||has('rep','sheets');
+  var slow=has('rtime','hrs')||has('rtime','days');
+  var auto=manual&&slow;
+  if(auto)n.reports=true;
+  var pick=function(arr){return ['excel','powerbi','tableau'].filter(function(t){return arr.indexOf(t)>-1})};
+  var want=pick(S('want')),cur=pick(S('tools'));
+  var wantClaude=has('want','claude');
+  var claudeOnly=wantClaude&&!want.length;
+  var tools=want.length?want:cur;var how=want.length?'asked':'current';
+  var defaulted=false;
+  if(claudeOnly){tools=[];how='claude'}
+  else if(!tools.length){defaulted=true;how='default';tools=[lvl==='a'?'powerbi':'excel']}
+  var sqlWanted=has('want','sql')||(!S('want').length&&has('tools','sql'));
+  var py=/python|بايثون|بايثن/i.test([otherText('tools'),otherText('needs'),otherText('want'),A.note].join(' '));
+  var len=parseInt(S('sess')[0],10);if(len!==1&&len!==2&&len!==3)len=2;
+  var C={};var add=function(id,p){if(!(id in C)||p<C[id])C[id]=p};
+  add('C1',0);add('F2',1);add('F3',2);
+  add('F4',n.ai?1.8:4);
+  add('F1',lvl==='b'?5:12);
+  add('F5',(n.decide||n.dash)?3.5:5.9);
+  add('D1',(n.why||n.decide)?3.8:6.5);
+  add('K1',(n.decide||n.dash)?4.8:7);
+  add('CL1',wantClaude?3:(n.ai?3.9:5.2));
+  add('CL2',wantClaude?3.1:(n.ai?4.3:(n.dash?5.6:7)));
+  if(n.forecast)add('X1',lvl==='b'?5.8:4.5);
+  tools.forEach(function(t,i){
+    var b=3+i*0.05;
+    if(t==='excel'){add('E2',b);add('E1',(n.quality||auto)?2.9:4.5);add('E3',(n.reports||n.dash)?3.6:5.5);add('E4',auto?3.4:(lvl!=='b'?(n.reports?4.2:7):11))}
+    if(t==='tableau'){add('T1',b);add('T3',n.dash?3.7:5);add('T2',lvl==='b'?11:((n.dash||lvl==='a')?4:5.8))}
+    if(t==='powerbi'){add('P1',b);add('P3',(n.dash||n.reports)?3.7:5);add('P2',lvl==='b'?11:((lvl==='a'||auto)?4:5.8))}
+  });
+  var hasViz=tools.indexOf('tableau')>-1||tools.indexOf('powerbi')>-1;
+  if(hasViz||sqlWanted){add('S1',sqlWanted?4.4:5.5);add('S2',lvl==='b'?12:(sqlWanted?5.8:7))}
+  if(py){add('Y1',5);add('Y2',9)}
+  var all=Object.keys(C).sort(function(a,b){return C[a]-C[b]});
+  var ids=all.filter(function(id){return C[id]<6});
+  if(ids.length>12)ids=ids.slice(0,12);
+  if(ids.length<4)ids=all.slice(0,4);
+  return {ids:ids,tools:tools,defaulted:defaulted,how:how,wantClaude:wantClaude,lvl:lvl,n:n,len:len,auto:auto,manual:manual,sqlWanted:sqlWanted,py:py};
+}
+function currentPlan(){
+  var b=basePlan();var set={};
+  b.ids.forEach(function(id){set[id]=1});
+  Object.keys(A.removed).forEach(function(id){if(!CORE[id])delete set[id]});
+  Object.keys(A.added).forEach(function(id){set[id]=1});
+  b.plan=ORDER.filter(function(id){return set[id]});
+  b.hours=b.plan.length*UNIT;
+  b.sessions=Math.ceil(b.hours/b.len);
+  return b;
+}
+function optionalMods(b){
+  var inSet={};b.plan.forEach(function(id){inSet[id]=1});
+  return ORDER.filter(function(id){
+    if(inSet[id])return false;
+    var k=id.charAt(0);
+    if(k==='E'&&b.tools.indexOf('excel')<0)return false;
+    if(k==='T'&&b.tools.indexOf('tableau')<0)return false;
+    if(k==='P'&&b.tools.indexOf('powerbi')<0)return false;
+    return true;
+  });
+}
+
+/* ---------- wizard ---------- */
+var wiz=$('#wizard');
+function chip(f,v,l,isOther){
+  var checked=has(f.id,v);var kind=f.type==='single'?'radio':'checkbox';
+  return '<label class="chip '+(f.type==='single'?'single':'multi')+(isOther?' other':'')+'"><input type="'+kind+'" name="'+f.id+'" value="'+esc(v)+'" data-f="'+f.id+'"'+(checked?' checked':'')+'><span>'+esc(l)+'</span></label>';
+}
+function renderStep(){
+  var s=STEPS[cur];var total=STEPS.length;
+  var bar='';for(var i=0;i<total;i++)bar+='<i class="'+(i<=cur?'on':'')+'"></i>';
+  var body='';
+  if(s.free){
+    body='<div class="free"><div><label class="label" for="org">اسم الجهة أو قطاعها (اختياري)</label><input type="text" id="org" data-key="org" value="'+esc(A.org)+'" placeholder="مثال: شركة تجزئة، مؤسسة تعليمية"></div>'+
+    '<div><label class="label" for="note">صفوا وضعكم أو ما تتوقعونه من البرنامج (اختياري)</label><textarea id="note" data-key="note" rows="5" placeholder="اكتبوا بحرية، وسنراجع كلامكم عند تخصيص الخطة">'+esc(A.note)+'</textarea></div></div>';
+  }else{
+    s.fields.forEach(function(f){
+      var o=has(f.id,'__other');
+      body+='<fieldset class="field" data-field="'+f.id+'"><legend'+(f.label?'':' class="sr"')+'>'+esc(f.label||s.title)+'</legend><div class="chips">'+
+        f.options.map(function(op){return chip(f,op[0],op[1],false)}).join('')+chip(f,'__other','غير ذلك، أكتبه بنفسي',true)+
+        '</div><div class="other-wrap"'+(o?'':' hidden')+'><label class="sr" for="o-'+f.id+'">اكتبوا هنا</label><textarea id="o-'+f.id+'" data-other="'+f.id+'" rows="2" placeholder="'+esc(f.ph||'اكتبوا هنا')+'">'+esc(A[f.id].other)+'</textarea></div></fieldset>';
+    });
+  }
+  wiz.innerHTML='<div class="progress" aria-hidden="true">'+bar+'</div><div class="stepno">السؤال '+(cur+1)+' من '+total+'</div>'+
+    '<h2 id="qh" tabindex="-1">'+esc(s.title)+'</h2><p class="hint">'+esc(s.hint)+'</p>'+body+'<p class="err" id="err" role="alert" hidden></p>'+
+    '<div class="nav"><button type="button" class="btn btn-ghost" id="back"'+(cur===0?' hidden':'')+'>السابق</button>'+
+    '<button type="button" class="btn '+(cur===total-1?'btn-signal':'btn-primary')+'" id="next">'+(cur===total-1?'اعرضوا الخطة المقترحة':'التالي')+'</button></div>';
+}
+function showErr(m){var e=$('#err');e.textContent=m;e.hidden=false}
+function validate(){
+  var s=STEPS[cur];if(s.free)return true;
+  for(var i=0;i<s.fields.length;i++){
+    var f=s.fields[i];var a=A[f.id];
+    if(has(f.id,'__other')&&!a.other.trim()&&S(f.id).length===0){showErr('اكتبوا ما تريدونه في الخانة، أو اختاروا أحد الخيارات.');return false}
+    if(f.req&&a.sel.length===0){showErr('اختاروا خيارًا واحدًا على الأقل، أو اكتبوا بأنفسكم.');return false}
+  }
+  return true;
+}
+wiz.addEventListener('change',function(e){
+  var t=e.target;if(!t.matches('input[data-f]'))return;
+  var id=t.getAttribute('data-f');var f=null;
+  STEPS.forEach(function(s){(s.fields||[]).forEach(function(x){if(x.id===id)f=x})});
+  var v=t.value;var a=A[id];
+  if(f.type==='single'){a.sel=[v]}
+  else{
+    if(t.checked){
+      if(f.exclusive&&v===f.exclusive){a.sel=[v]}
+      else{a.sel=a.sel.filter(function(x){return x!==f.exclusive});if(a.sel.indexOf(v)<0)a.sel.push(v)}
+    }else{a.sel=a.sel.filter(function(x){return x!==v})}
+    var fs=wiz.querySelector('[data-field="'+id+'"]');
+    Array.prototype.forEach.call(fs.querySelectorAll('input'),function(inp){inp.checked=a.sel.indexOf(inp.value)>-1});
+  }
+  var fs2=wiz.querySelector('[data-field="'+id+'"]');
+  fs2.querySelector('.other-wrap').hidden=!has(id,'__other');
+  if(has(id,'__other')){var ta=fs2.querySelector('textarea');if(ta)ta.focus()}
+  var er=$('#err');if(er)er.hidden=true;
+});
+wiz.addEventListener('input',function(e){
+  var t=e.target;
+  if(t.hasAttribute('data-other')){A[t.getAttribute('data-other')].other=t.value;var er=$('#err');if(er)er.hidden=true}
+  else if(t.hasAttribute('data-key')){A[t.getAttribute('data-key')]=t.value}
+});
+wiz.addEventListener('click',function(e){
+  if(e.target.id==='back'){cur=Math.max(0,cur-1);renderStep();focusHead()}
+  if(e.target.id==='next'){
+    if(!validate())return;
+    if(cur<STEPS.length-1){cur++;renderStep();focusHead()}else{showResult()}
+  }
+});
+function focusHead(){var h=$('#qh');if(h){h.focus({preventScroll:true})}var r=wiz.getBoundingClientRect();if(r.top<0){wiz.scrollIntoView({block:'start'})}}
+$('#startBtn').addEventListener('click',function(e){e.preventDefault();$('#start').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});setTimeout(function(){var h=$('#qh');if(h)h.focus({preventScroll:true})},350)});
+
+/* ---------- result ---------- */
+var res=$('#result');
+function showResult(){
+  A.added={};A.removed={};
+  $('#start').hidden=true;res.hidden=false;renderResult();
+  res.scrollIntoView({block:'start'});
+}
+function toolLabel(t){return {excel:'Excel',powerbi:'Power BI',tableau:'Tableau'}[t]}
+function reasonLines(b){
+  var L=[];
+  var lvlTxt={b:'مستوى الفريق مبتدئ، لذلك نثبّت الأساس قبل الانتقال إلى الأدوات.',m:'الفريق يستخدم أدوات بالفعل، فنثبّت الأساس سريعًا ثم نتجه إلى التطبيق.',a:'الفريق متقدم، فنختصر المراجعة ونركز على التحليل الأعمق.'};
+  L.push(lvlTxt[b.lvl]);
+  L.push('حددنا مدة البرنامج ('+b.hours+' ساعة) بحسب مستوى الفريق وأدواته واحتياجاته. وتتغير فورًا إذا أضفتم وحدة أو أزلتموها.');
+  var tn=joinAr(b.tools.map(toolLabel));
+  if(b.how==='claude')L.push('طلبتم التدريب على Claude، فبنينا الخطة حوله بعد الأساس، من تنظيف البيانات وتحليلها إلى بناء اللوحات.');
+  else if(b.defaulted)L.push('لم تحددوا أداة للتدريب، فاقترحنا '+(b.tools[0]==='excel'?'Excel لأنه الأوسع انتشارًا في الفرق':'Power BI لأنه يناسب فريقًا متقدمًا')+'. ويمكن تغييرها بعد الجلسة التعريفية.');
+  else if(b.how==='asked')L.push('ركزنا على الأداة التي طلبتموها: '+tn+(b.wantClaude?'، مع Claude.':'.'));
+  else L.push('اعتمدنا الأدوات التي تستخدمونها الآن: '+tn+'.');
+  if(b.auto)L.push('تقاريركم تُعدّ يدويًا وتستغرق وقتًا طويلًا، فأضفنا التنظيف والأتمتة لتحديثها تلقائيًا.');
+  else if(has('rep','system')&&!b.manual)L.push('تعتمدون على تقارير جاهزة من نظام الشركة، فنركز على قراءتها وتحليلها بدل إعدادها.');
+  else if(has('rep','dash'))L.push('لديكم لوحات تفاعلية، فنركز على استخدامها في القرار وتطويرها.');
+  else if(has('rep','none'))L.push('لا تعدّون تقارير منتظمة، فنبدأ من الأساس ونبني التقرير الأول معًا.');
+  var inP={};b.plan.forEach(function(id){inP[id]=1});
+  var map={
+    reports:[['E3','E4','P3'],'تريدون تقارير أسرع، فاعتمدنا وحدات تُنتج تقارير قابلة للتحديث.'],
+    why:[['D1'],'تريدون فهم أسباب المشكلات، فأضفنا الإحصاء لاتخاذ القرار.'],
+    forecast:[['X1'],'تريدون التنبؤ، فأدرجنا وحدته بعد ترسيخ الأساس.'],
+    dash:[['T3','P3','F5'],'تريدون لوحات تفاعلية، فنختم الأدوات ببناء لوحة كاملة.'],
+    quality:[['F2','E1'],'جودة البيانات أولوية لديكم، فتأتي جلسة الجودة والتنظيف في البداية.'],
+    decide:[['K1','F5','D1'],'تريدون قرارات مبنية على الأرقام، فأضفنا المؤشرات وسرد القصة.'],
+    ai:[['F4','CL1','CL2'],'تريدون توظيف الذكاء الاصطناعي، فأضفنا وحدات Claude لتنظيف البيانات وتحليلها وبناء اللوحات.']
+  };
+  var miss=[];
+  Object.keys(map).forEach(function(k){
+    if(!has('needs',k))return;
+    if(k==='reports'&&b.auto)return;
+    var ok=map[k][0].some(function(id){return inP[id]});
+    if(ok)L.push(map[k][1]);else miss.push(k);
+  });
+  if(miss.length)L.push('بعض ما طلبتموه لم يدخل الخطة بعد، ويمكنكم إضافته من قائمة الوحدات أدناه.');
+  if(has('needs','forecast')&&b.lvl==='b'&&inP.X1)L.push('التنبؤ مرحلة متقدمة، لذلك وُضع بعد الأساسيات.');
+  var ob={time:'ضيق الوقت: جلسات قصيرة ومركزة تنتهي كل واحدة منها بناتج واضح.',measure:'قياس الأثر: اختبار قبل البرنامج وبعده، ومشروع تطبيقي في الختام.',practice:'التطبيق العملي: كل وحدة تنتهي بناتج تعملون عليه بأنفسكم.',fit:'ملاءمة الدور: التمارين مأخوذة من طبيعة عمل الفئة المشاركة.',start:'لا تعرفون من أين تبدأون: نبدأ بالأساس ثم نبني عليه خطوة خطوة.'};
+  S('obs').forEach(function(k){if(ob[k])L.push(ob[k])});
+  var au=labelsOf('aud');if(au.length&&!(au.length===1&&au[0]==='فريق متنوع'))L.push('أمثلة التمارين ستُؤخذ من عمل: '+joinAr(au)+'.');
+  return L;
+}
+function ownWords(){
+  var arr=[];
+  [['tools','الأدوات الحالية'],['rep','طريقة إعداد التقارير'],['rtime','وقت إعداد التقارير'],['needs','ما تريدون تطويره'],['want','الأداة المطلوبة'],['aud','الفئة'],['level','المستوى'],['obs','العوائق'],['size','عدد المتدربين'],['fmt','الصيغة'],['sess','مدة الجلسة']].forEach(function(p){var t=otherText(p[0]);if(t)arr.push(p[1]+': '+t)});
+  if(A.note.trim())arr.push('ملاحظة: '+A.note.trim());
+  return arr;
+}
+function buildMsg(b){
+  var m=[];
+  m.push('السلام عليكم م. آن،');
+  m.push('اطلعنا على عرض «ثقافة البيانات لفريقك» ونود مناقشة برنامج تدريبي لفريقنا.'+(A.org.trim()?' الجهة: '+A.org.trim()+'.':''));
+  m.push('');
+  var rows=[['الأدوات الحالية',labelsOf('tools')],['طريقة إعداد التقارير',labelsOf('rep')],['الوقت الذي يستغرقه إعدادها',labelsOf('rtime')],['ما نريد تطويره',labelsOf('needs')],['الأداة المطلوبة',labelsOf('want')],['الفئة المستهدفة',labelsOf('aud')],['مستوى الفريق',labelsOf('level')],['العوائق',labelsOf('obs')],['عدد المتدربين',labelsOf('size')],['الصيغة',labelsOf('fmt')]];
+  rows.forEach(function(r){if(r[1].length)m.push('- '+r[0]+': '+r[1].join('، '))});
+  m.push('- الخطة المقترحة: '+b.hours+' ساعة، تُقدَّم في '+sessN(b.sessions)+' مدة كل جلسة '+hrs(b.len));
+  b.plan.forEach(function(id,i){m.push('   '+(i+1)+'. '+MOD[id].t)});
+  if(A.note.trim()){m.push('');m.push('ملاحظاتنا: '+A.note.trim())}
+  m.push('');
+  m.push('نرجو تحديد موعد لجلسة تعريفية مدتها 30 دقيقة لمراجعة الخطة.');
+  return m.join('\n');
+}
+function renderResult(){
+  var b=currentPlan();
+  var fmtL=labelsOf('fmt')[0]||'يُحدد لاحقًا';var sizeL=labelsOf('size')[0]||'يُحدد لاحقًا';
+  var toolNames=b.tools.map(toolLabel);
+  if(b.plan.some(function(id){return id.indexOf('CL')===0}))toolNames.push('Claude');
+  if(b.plan.some(function(id){return id.charAt(0)==='S'}))toolNames.push('SQL');
+  if(b.plan.some(function(id){return id.charAt(0)==='Y'}))toolNames.push('Python');
+  var groups=[];var no=0;
+  b.plan.forEach(function(id){
+    var ph=PHASE[id];
+    if(!groups.length||groups[groups.length-1].ph!==ph)groups.push({ph:ph,items:[]});
+    groups[groups.length-1].items.push(id);
+  });
+  var html='';
+  html+='<div class="res-head"><span class="eyebrow">خطتكم المقترحة</span><h2>برنامج من '+b.hours+' ساعة في '+sessN(b.sessions)+'</h2><p>مسار التدريب: '+esc(joinAr(toolNames))+'. يمكنكم إزالة وحدة أو إضافة أخرى، وتتحدث المدة فورًا.</p></div>';
+  html+='<div class="facts"><div class="fact"><small>إجمالي الساعات</small><b>'+b.hours+' ساعة</b></div><div class="fact"><small>الجلسات</small><b>'+b.sessions+'</b><small>مدة كل جلسة: '+hrs(b.len)+'</small></div><div class="fact"><small>الصيغة</small><b>'+esc(fmtL)+'</b></div><div class="fact"><small>عدد المتدربين</small><b>'+esc(sizeL)+'</b></div></div>';
+  html+='<div class="cols"><div>';
+  groups.forEach(function(g){
+    html+='<div class="phase"><h3>'+PHASE_LABEL[g.ph]+(g.ph==='base'?' <span class="tag">إلزامي في كل برنامج</span>':'')+'</h3>';
+    g.items.forEach(function(id){
+      no++;var m=MOD[id];
+      html+='<article class="sess '+(g.ph==='base'?'base':'')+'"><div class="no">'+no+'</div><div><h4>'+esc(m.t)+'</h4><p>'+esc(m.d)+'</p><p class="out"><b>الناتج العملي:</b> '+esc(m.o)+'</p></div><div><span class="dur">'+UNIT+' ساعات</span>'+(CORE[id]?'':'<button type="button" class="rm" data-rm="'+id+'">إزالة</button>')+'</div></article>';
+    });
+    html+='</div>';
+  });
+  var opt=optionalMods(b);
+  if(opt.length){
+    html+='<div class="addbox"><h3>وحدات يمكن إضافتها</h3><p>كل وحدة تضيف '+UNIT+' ساعات إلى البرنامج.</p><div class="adds">'+opt.map(function(id){return '<button type="button" class="add" data-add="'+id+'">+ '+esc(MOD[id].t)+'</button>'}).join('')+'</div></div>';
+  }
+  html+='</div><aside class="side">';
+  var rl=reasonLines(b);
+  html+='<div class="panel"><h3>لماذا هذه الخطة</h3><ul>'+rl.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>';
+  var can=[];b.plan.forEach(function(id){if(id!=='F1'&&can.indexOf(MOD[id].c)<0)can.push(MOD[id].c)});
+  html+='<div class="panel"><h3>بعد البرنامج، سيتمكن فريقكم من</h3><ul>'+can.slice(0,7).map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>';
+  html+='<div class="panel"><h3>كيف نقيس الأثر</h3><ul><li>اختبار قصير قبل البرنامج وبعده لقياس التقدم.</li><li>ناتج عملي ملموس في نهاية كل وحدة.</li><li>مشروع تطبيقي على حالة من عملكم، يُعرض على الإدارة.</li><li>تمارين كل وحدة تتضمن استخدامًا موجّهًا للذكاء الاصطناعي.</li></ul></div>';
+  var ow=ownWords();
+  if(ow.length)html+='<div class="panel note"><h3>ما كتبتموه بأنفسكم</h3><ul>'+ow.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul><p style="margin-top:12px;font-size:14.5px">ستراجع م. آن ما كتبتموه وتخصص الخطة وفقه.</p></div>';
+  html+='</aside></div>';
+  html+='<section class="cta" aria-labelledby="ctah"><h2 id="ctah">الخطوة التالية: جلسة تعريفية مدتها 30 دقيقة</h2><p>نراجع فيها الخطة معًا ونعدّلها بحسب واقع فريقكم. هذه رسالة جاهزة تتضمن اختياراتكم، انسخوها وأرسلوها إلى م. آن عبر LinkedIn.</p><label class="sr" for="msg">نص الرسالة</label><textarea id="msg" readonly></textarea><div class="cta-row"><button type="button" class="btn btn-signal" id="copy">نسخ الرسالة</button><a class="btn btn-ghost" href="'+LINKEDIN+'" target="_blank" rel="noopener" dir="ltr">Ann on LinkedIn</a><span class="status" id="status" role="status"></span></div></section>';
+  html+='<div class="edit"><button type="button" class="btn btn-ghost" id="edit">تعديل الإجابات</button></div>';
+  res.innerHTML=html;
+  $('#msg').value=buildMsg(b);
+}
+res.addEventListener('click',function(e){
+  var t=e.target;
+  if(t.hasAttribute('data-rm')){var id=t.getAttribute('data-rm');A.removed[id]=1;delete A.added[id];renderResult()}
+  else if(t.hasAttribute('data-add')){var id2=t.getAttribute('data-add');A.added[id2]=1;delete A.removed[id2];renderResult()}
+  else if(t.id==='edit'){res.hidden=true;$('#start').hidden=false;cur=0;renderStep();$('#start').scrollIntoView({block:'start'})}
+  else if(t.id==='copy'){
+    var ta=$('#msg');var st=$('#status');
+    var fallback=function(){ta.focus();ta.select();st.textContent='حدّدنا النص لكم، انسخوه يدويًا.'};
+    try{
+      navigator.clipboard.writeText(ta.value).then(function(){st.textContent='تم نسخ الرسالة. الصقوها في محادثة LinkedIn.'},fallback);
+    }catch(err){fallback()}
+  }
+});
+
+renderStep();
+})();
+</script>
+
+</body>
+</html>
